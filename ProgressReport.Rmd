@@ -1,6 +1,6 @@
 ---
 title: "Progress Report"
-author: "Noah Eskew and Mateo Anderson"
+author: "Noah Eskew and Mataeo Anderson"
 date: "April 3, 2022"
 output: html_document
 ---
