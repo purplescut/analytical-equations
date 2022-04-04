@@ -8,5 +8,5 @@ output: html_document
 
 ## Progress Report
 
-The goal of the project is to create a document that can be used to run titrations using standard values seen in a titration problem such as Ka, acid concentration and base concentration. For the division of labor in the project, Noah focused on working through the math that is involved with the titration, and Mateo took the math and worked through the logic in order to get the math working properly. The code is done for titrations, but we are still running some examples through the code to test for accuracy. 
+The goal of the project is to create a document using python that can be used to run titrations using standard values seen in a titration problem such as Ka, acid concentration and base concentration. For the division of labor in the project, Noah focused on working through the math that is involved with the titration, and Mateo took the math and worked through the logic in order to get the math working properly. The code is done for titrations, but we are still running some examples through the code to test for accuracy. 
 
