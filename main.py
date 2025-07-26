@@ -1,9 +1,13 @@
 import math
-from Titrations_calculator_V1 import strong_acid_titration_calculator
-from Acid_base_calculator_V1 import type_of_eqaution_to_use 
+from Titrations_calculator_V1 import strong_acid_titration_calculator, Titration_Input_Error
+from Acid_base_calculator_V1 import type_of_eqaution_to_use, Acid_Base_Input_Error
 
 def main():
-    type_of_eqaution_to_use()
-    strong_acid_titration_calculator()
+    try:
+        type_of_eqaution_to_use()
+    except Acid_Base_Input_Error as e:
+        print (e)
+    except Titration_Input_Error as e:
+        print (e)
 
 main()
