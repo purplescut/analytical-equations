@@ -9,5 +9,9 @@ def main():
         print (e)
     except Titration_Input_Error as e:
         print (e)
+    except ZeroDivisionError as e:
+        print (f" ERROR: cannot do {e}")
+    except Exception as e:
+        print (f" ERROR: cannot {e}")
 
 main()

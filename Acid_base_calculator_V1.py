@@ -3,7 +3,8 @@ from Titrations_calculator_V1 import strong_acid_titration_calculator, Titration
 
 class Acid_Base_Input_Error(Exception):
     #custom input error exception
-    pass
+    def __init__(self):
+        pass
 
 def type_of_eqaution_to_use():
     equation_type = input(
@@ -17,9 +18,6 @@ def type_of_eqaution_to_use():
             
         )
     if equation_type in ("strong acid", "strong base"):
-        try:
-            strong_acid_titration_calculator()
-        except Exception as e:
-            print(e)
-        except Titration_Input_Error as e:
-            print (e)
+        strong_acid_titration_calculator()
+
+
