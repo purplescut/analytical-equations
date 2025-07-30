@@ -20,4 +20,3 @@ def type_of_eqaution_to_use():
     if equation_type in ("strong acid", "strong base"):
         strong_acid_titration_calculator()
 
-
