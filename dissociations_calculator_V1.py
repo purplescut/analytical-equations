@@ -1,8 +1,8 @@
 import math
 
-stored_Ka_values_dictionary = {} # a dictionary to potentially add and store Ka values in to provice 
-                                 # to the user for the purpose of building them a custom database of sorts for common
-                                 # values they will need to use and/or access repeatedly
+stored_Ka_values_dictionary = {} #A dictionary to potentially add and store Ka values in to provice 
+                                 #to the user for the purpose of building them a custom database of sorts for common
+                                 #values they will need to use and/or access repeatedly
 
 
 class Dissociations_Input_Error(Exception):
@@ -10,16 +10,17 @@ class Dissociations_Input_Error(Exception):
     pass
 
 def calculate_A(H, HA, Ka):
-    return HA*Ka/H # a function to perform simple algebra for repeated use
-
+    A = HA*Ka/H #A function to perform simple algebra for repeated use
+    return f"The concentration of [A-], is {A}. Which is calculated by [A-] = {HA}*{Ka}/{H}. "
 def calculate_H(A, HA, Ka):
-    return HA*Ka/A # a function to perform simple algebra for repeated use
-
+    H =HA*Ka/A #A function to perform simple algebra for repeated use
+    return f"The concentration of[H+] is {H}. Which is calculated by [H+] = {HA}*{Ka}/{A}. "
 def calculate_HA(A, H, Ka):
-    return H*A/Ka # a function to perform simple algebra for repeated use
-
+    HA = H*A/Ka #A function to perform simple algebra for repeated use
+    return f"The concentration of the weak acid being dissociated is {HA}. Which is calculated by [HA] = {H}*{A}/{Ka}. "
 def calculate_Ka(A, H, HA):
-    return H*A/HA # a function to perform simple algebra for repeated use
+    Ka = H*A/HA #A function to perform simple algebra for repeated use
+    return f"The value of Ka for this dissociation is {Ka}. Which is calculated by Ka = {H}*{A}/{HA}"
 
 def determine_monoprotic_acid_dissociation_equation(H, HA, A, Ka): # a function for deciding which algebra function to use for monoprotic dissociations
     if H == None:calculate_H(A, HA, Ka)
@@ -27,11 +28,11 @@ def determine_monoprotic_acid_dissociation_equation(H, HA, A, Ka): # a function 
     if HA == None:calculate_HA(A, H, Ka)
     if Ka == None:calculate_Ka(A, H, HA)
     
-def is_unknown(variable): # a function to use for detemermining which variable is the unknown and converting the user inputted string into a None type python value
+def is_unknown(variable): #A function to use for detemermining which variable is the unknown and converting the user inputted string into a None type python value
     return None if variable.strip().lower() == "none" else float(variable)
 
-def monoprotic_acid_dissociation_calculator(): # the meat of the calculator for a monoprotic acid dissociation equation. 
-    unknown = "If this is your unknown enter 'None'."      # This will take the user inputs and push them to the appropriate functions as needed
+def monoprotic_acid_dissociation_calculator(): #The meat of the calculator for a monoprotic acid dissociation equation. 
+    unknown = "If this is your unknown enter 'None'.: "      #This will take the user inputs and push them to the appropriate functions as needed
     dissociated = "Enter the concentration of the dissociated "
     print("For your unknown, or the variable you wish to calculate, enter 'None' when asked to enter its value")
     H = input(f"{dissociated}H, or, '[H+]' here. {unknown}")
