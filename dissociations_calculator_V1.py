@@ -34,7 +34,7 @@ def determine_monoprotic_acid_dissociation_equation(H, HA, A, Ka): # a function 
 def is_unknown(variable): # a function to use for detemermining which variable is the unknown and converting the user inputted string into a None type python value
     return None if variable.strip().lower() == "none" else float(variable)
 
-def monoprotic_acid_calculator(): # the meat of the calculator for a monoprotic acid dissociation equation. 
+def monoprotic_acid_dissociation_calculator(): # the meat of the calculator for a monoprotic acid dissociation equation. 
     unknown = "If this is your unknown enter 'None'."      # This will take the user inputs and push them to the appropriate functions as needed
     dissociated = "Enter the concentration of the dissociated "
     print("For your unknown, or the variable you wish to calculate, enter 'None' when asked to enter its value")
@@ -53,7 +53,7 @@ def monoprotic_acid_calculator(): # the meat of the calculator for a monoprotic 
 
 
 def main():
-    monoprotic_acid_calculator()
+    monoprotic_acid_dissociation_calculator()
 
 
 

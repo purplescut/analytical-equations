@@ -8,8 +8,24 @@ line is working properly without having to use "yay" each time.
 yay = "yay"
 
 class Titration_Input_Error(Exception):
-    #another custom input error class
+    #Another custom input error class
     pass
+
+def solve_for_M1(M1, V1, M2, V2): #A function to contain the algebra to solve for a variable, in this case M1, from M1V1=M2V2
+    M1 = M2*V2/V1
+    return print (f"The concentration of your acid is {M2}*{V2}/{V1} which equals {M1}")
+
+def solve_for_V1(M1, V1, M2, V2): #A function to contain the algebra to solve for a different variable from the M1V1=M2V2 equation
+    V1 = M2*V2/M1
+    return print (f"The volume of your acid is {M2}*{V2}/{M1} which equals {V1}")
+
+def solve_for_M2(M1, V1, M2, V2): #A fuction to contain the algebra to solve for M2 from M1V1=M2V2
+    M2 = M1*V1/V2
+    return print (f"The concentration of your base is {M1}*{V1}/{V2} which equals {M2}")
+
+def solve_for_V2(M1, V1, M2, V2): #A function to contain the algebra to solve for V2 from M1V1=M2V2
+    V2 = M1*V1/M2
+    return print (f"The volume of your base is {M1}*{V1}/{V2} which equals {V2}")
 
 
 def strong_acid_titration_calculator(): #The code for the calculator to do the simple strong acid with strong base calculations
@@ -49,19 +65,10 @@ def strong_acid_titration_calculator(): #The code for the calculator to do the s
     M2 = floated_variable_inputs[2]
     V2 = floated_variable_inputs[3]
     #Below is the code of the algebra to solve for X for the 4 variables that can potentially be unknown. 
-    if M1 == None:
-        M1 = M2*V2/V1
-        print (f"The concentration of your acid is {M2}*{V2}/{V1} which equals {M1}")
-    if V1 == None:
-        V1 = M2*V2/M1
-        print (f"The volume of your acid is {M2}*{V2}/{M1} which equals {V1}")
-    if M2 == None:
-        M2 = M1*V1/V2
-        print (f"The concentration of your base is {M1}*{V1}/{V2} which equals {M2}")
-    if V2 == None:
-        V2 = M1*V1/M2
-        print (f"The volume of your base is {M1}*{V1}/{V2} which equals {V2}")
-
+    if M1 == None: solve_for_M1(M1, V1, M2, V2)
+    if V1 == None: solve_for_V1(M1, V1, M2, V2)
+    if M2 == None: solve_for_M2(M1, V1, M2, V2)
+    if V2 == None: solve_for_V2(M1, V1, M2, V2)
 
 
 
