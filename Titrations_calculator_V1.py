@@ -60,15 +60,23 @@ def strong_acid_titration_calculator(): #The code for the calculator to do the s
                 "ERROR: Invalid input. Please enter a numeric value only for concentration. Or 'None' if it is the unknown. "
                 "You can use scientific notation in the format of X.Ye-x"
             ) #this should be caught and handled in the main.py form in the main function to tell the user if they have made an expected error and guide them towards how to correct it
-    M1 = floated_variable_inputs[0]
-    V1 = floated_variable_inputs[1]
-    M2 = floated_variable_inputs[2]
-    V2 = floated_variable_inputs[3]
-    #Below is the code of the algebra to solve for X for the 4 variables that can potentially be unknown. 
-    if M1 == None: solve_for_M1(M1, V1, M2, V2)
+    solve_simple_algebra(*floated_variable_inputs)
+    
+
+
+def solve_simple_algebra(M1, V1, M2, V2): #This function accepts 4 integers or floats as inputs and then decides which variable needs to be solved for 
+    if M1 == None: solve_for_M1(M1, V1, M2, V2) # and calls the appropriate function whilst passing it the variables. 
     if V1 == None: solve_for_V1(M1, V1, M2, V2)
     if M2 == None: solve_for_M2(M1, V1, M2, V2)
     if V2 == None: solve_for_V2(M1, V1, M2, V2)
 
+'''
+For weak acid - strong base titrations... pH = pKa at the equivalence point. The equivalence point can be calculated as Vb = Ma*Va/Mb (OR... V2 = M1V1/M2).
+Which we already know and can calculate. 
+'''
 
+def main():
+    strong_acid_titration_calculator()
 
+if __name__ == "__main__":
+    main()

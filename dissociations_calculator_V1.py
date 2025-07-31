@@ -22,14 +22,10 @@ def calculate_Ka(A, H, HA):
     return H*A/HA # a function to perform simple algebra for repeated use
 
 def determine_monoprotic_acid_dissociation_equation(H, HA, A, Ka): # a function for deciding which algebra function to use for monoprotic dissociations
-    if H == None:
-        return calculate_H(A, HA, Ka)
-    if A == None:
-        return calculate_A(H, HA, Ka)
-    if HA == None:
-        return calculate_HA(A, H, Ka)
-    if Ka == None:
-        return calculate_Ka(A, H, HA)
+    if H == None:calculate_H(A, HA, Ka)
+    if A == None:calculate_A(H, HA, Ka)
+    if HA == None:calculate_HA(A, H, Ka)
+    if Ka == None:calculate_Ka(A, H, HA)
     
 def is_unknown(variable): # a function to use for detemermining which variable is the unknown and converting the user inputted string into a None type python value
     return None if variable.strip().lower() == "none" else float(variable)
