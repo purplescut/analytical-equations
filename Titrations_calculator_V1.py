@@ -88,7 +88,7 @@ def get_weak_analyte_strong_titrant_equivalence_point():
 
 def calculate_initial_pH(analyte_concentration = None, analyte_Ka_value = None,): #A function to hold the math for calculating initial pH, and 
     if analyte_concentration==None:                                               #allowing it to be called for user inputs.
-        analyte_concentration = float(input(f"Enter the concentration of your analyte: "))
+        analyte_concentration=float(input(f"Enter the concentration of your analyte: "))
     if analyte_Ka_value==None:
         analyte_Ka_value=float(input(f"Enter the Ka value for your anayte here: "))
     return print(f"The initial pH is {-math.log10(math.sqrt(analyte_concentration*analyte_Ka_value))}. This is calculated by \
@@ -96,8 +96,25 @@ def calculate_initial_pH(analyte_concentration = None, analyte_Ka_value = None,)
                      where x is negligible. This can be rearranged\
         as x = sqrt({analyte_concentration}*{analyte_Ka_value}). Then pH is the -log(x), which in this case, \
             is {-math.log10(math.sqrt(analyte_concentration*analyte_Ka_value))}. ")
-
-
+#Below is a function to calculate the equivalence point. Making it modular to allow it to be called elsewhere also. 
+def calculate_equivalence_point(analyte_concentration = None, analyte_volume = None, analyte_Ka_value = None, titrant_concentration = None, titrant_volume = None,):
+    if analyte_concentration==None:                                               
+        analyte_concentration=float(input(f"Enter the concentration of your analyte in M: "))
+    if analyte_volume==None:
+        analyte_volume=float(input(f"Enter the volume of your analyte in L: "))
+    if analyte_Ka_value==None:
+        analyte_Ka_value=float(input(f"Enter the Ka value for your anayte here: "))
+    if titrant_concentration==None:
+        titrant_concentration=float(input(f"Enter the concentration of your titrant in M: "))
+    if titrant_volume==None:
+        titrant_volume=float(input(f"Enter the volume of your titrant in L: "))
+    return print(
+                    f"The pH is {14-(-math.log10(math.sqrt((analyte_concentration*analyte_volume)/(analyte_volume+titrant_volume)*1e-14/analyte_Ka_value)))}. This is the \
+                     equivalence point. At the equivalence point there is no weak analyte left, and no strong titrant left after the reaction completes.\
+                      This mean the conjugate is all that is left. To get the pH then you must calculate the dissociation of the weak conjugate. Since the\
+                        starting analyte was an acid, the conjugate is a weak base. To do this, you have to calculate the Kb of the conjugate using the equation \
+                         Kb = 1e-14/Ka. The dissociation of a weak base gives a pOH result that must be converted to a pH by the equation 14-pOH = pH. "
+                    )
 
 def weak_acid_pH_calculator(): #This function should be able to handle doing titrations of a weak acid (and potentially later on with a weak base also)
     try:
@@ -115,13 +132,7 @@ def weak_acid_pH_calculator(): #This function should be able to handle doing tit
     if titrant_volume == 0:
         calculate_initial_pH(analyte_concentration, analyte_Ka_value)
     if (analyte_concentration*analyte_volume) == (titrant_concentration*titrant_volume):
-        return print(
-                    f"The pH is {14-(-math.log10(math.sqrt((analyte_concentration*analyte_volume)/(analyte_volume+titrant_volume)*1e-14/analyte_Ka_value)))}. This is the \
-                     equivalence point. At the equivalence point there is no weak analyte left, and no strong titrant left after the reaction completes.\
-                      This mean the conjugate is all that is left. To get the pH then you must calculate the dissociation of the weak conjugate. Since the\
-                        starting analyte was an acid, the conjugate is a weak base. To do this, you have to calculate the Kb of the conjugate using the equation \
-                         Kb = 1e-14/Ka. The dissociation of a weak base gives a pOH result that must be converted to a pH by the equation 14-pOH = pH. "
-                    )
+        calculate_equivalence_point(analyte_concentration, analyte_volume, analyte_Ka_value, titrant_concentration, titrant_volume,)
     if abs((titrant_concentration * titrant_volume) - 0.5 * (analyte_concentration * analyte_volume)) < 1e-6:
         return print(f"The pH is {pKa}. This is the half equivalence point. The half equivalence point for this reaction is at {(1/2)*titrant_volume}. \
                      At the half equivalence point pH is always equal to pKa.")
