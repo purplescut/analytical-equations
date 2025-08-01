@@ -14,16 +14,16 @@ class Titration_Input_Error(Exception):
 
 def solve_for_M1(M1, V1, M2, V2): #A function to contain the algebra to solve for a variable, in this case M1, from M1V1=M2V2
     M1 = M2*V2/V1
-    return print (f"The concentration of your acid is {M2}*{V2}/{V1} which equals {M1} M")
+    return f"The concentration of your acid is {M2}*{V2}/{V1} which equals {M1} M"
 def solve_for_V1(M1, V1, M2, V2): #A function to contain the algebra to solve for a different variable from the M1V1=M2V2 equation
     V1 = M2*V2/M1
-    return print (f"The volume of your acid is {M2}*{V2}/{M1} which equals {V1} L")
+    return f"The volume of your acid is {M2}*{V2}/{M1} which equals {V1} L"
 def solve_for_M2(M1, V1, M2, V2): #A fuction to contain the algebra to solve for M2 from M1V1=M2V2
     M2 = M1*V1/V2
-    return print (f"The concentration of your base is {M1}*{V1}/{V2} which equals {M2} M")
+    return f"The concentration of your base is {M1}*{V1}/{V2} which equals {M2} M"
 def solve_for_V2(M1, V1, M2, V2): #A function to contain the algebra to solve for V2 from M1V1=M2V2
     V2 = M1*V1/M2
-    return print (f"The volume of your base is {M1}*{V1}/{M2} which equals {V2} L")
+    return f"The volume of your base is {M1}*{V1}/{M2} which equals {V2} L"
 
 def strong_acid_titration_calculator(): #The code for the calculator to do the simple strong acid with strong base calculations
     variable_inputs = [] #An empty list to propagate with the user inputs
@@ -60,10 +60,10 @@ def strong_acid_titration_calculator(): #The code for the calculator to do the s
     solve_simple_algebra(*floated_variable_inputs)
     
 def solve_simple_algebra(M1, V1, M2, V2): #This function accepts 4 integers or floats as inputs and then decides which variable needs to be solved for 
-    if M1 == None: solve_for_M1(M1, V1, M2, V2) # and calls the appropriate function whilst passing it the variables. 
-    if V1 == None: solve_for_V1(M1, V1, M2, V2)
-    if M2 == None: solve_for_M2(M1, V1, M2, V2)
-    if V2 == None: solve_for_V2(M1, V1, M2, V2)
+    if M1 == None: print (solve_for_M1(M1, V1, M2, V2)) # and calls the appropriate function whilst passing it the variables. 
+    if V1 == None: print(solve_for_V1(M1, V1, M2, V2))
+    if M2 == None: print(solve_for_M2(M1, V1, M2, V2))
+    if V2 == None: print(solve_for_V2(M1, V1, M2, V2))
 
 #Below is a function to find the equivalence point in a monoprotic weak acid titration.
 def get_weak_analyte_strong_titrant_equivalence_point():
@@ -91,11 +91,11 @@ def calculate_initial_pH(analyte_concentration = None, analyte_Ka_value = None,)
         analyte_concentration=float(input(f"Enter the concentration of your analyte: "))
     if analyte_Ka_value==None:
         analyte_Ka_value=float(input(f"Enter the Ka value for your anayte here: "))
-    return print(f"The initial pH is {-math.log10(math.sqrt(analyte_concentration*analyte_Ka_value))}. This is calculated by \
+    return f"The initial pH is {-math.log10(math.sqrt(analyte_concentration*analyte_Ka_value))}. This is calculated by \
                  solving for x in Ka = x^2/({analyte_concentration}-x) \
                      where x is negligible. This can be rearranged\
         as x = sqrt({analyte_concentration}*{analyte_Ka_value}). Then pH is the -log(x), which in this case, \
-            is {-math.log10(math.sqrt(analyte_concentration*analyte_Ka_value))}. ")
+            is {-math.log10(math.sqrt(analyte_concentration*analyte_Ka_value))}. "
 #Below is a function to calculate the equivalence point. Making it modular to allow it to be called elsewhere also. 
 def calculate_equivalence_point(analyte_concentration = None, analyte_volume = None, analyte_Ka_value = None, titrant_concentration = None, titrant_volume = None,):
     if analyte_concentration==None:                                               
@@ -130,9 +130,9 @@ def weak_acid_pH_calculator(): #This function should be able to handle doing tit
     except ValueError:
         return print("Input Error: Please enter numerical values only. Check your units and make sure your input is in the correct units. ")
     if titrant_volume == 0:
-        calculate_initial_pH(analyte_concentration, analyte_Ka_value)
+        print(calculate_initial_pH(analyte_concentration, analyte_Ka_value))
     if (analyte_concentration*analyte_volume) == (titrant_concentration*titrant_volume):
-        calculate_equivalence_point(analyte_concentration, analyte_volume, analyte_Ka_value, titrant_concentration, titrant_volume,)
+        print(calculate_equivalence_point(analyte_concentration, analyte_volume, analyte_Ka_value, titrant_concentration, titrant_volume,))
     if abs((titrant_concentration * titrant_volume) - 0.5 * (analyte_concentration * analyte_volume)) < 1e-6:
         return print(f"The pH is {pKa}. This is the half equivalence point. The half equivalence point for this reaction is at {(1/2)*titrant_volume}. \
                      At the half equivalence point pH is always equal to pKa.")

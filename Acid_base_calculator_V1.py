@@ -7,7 +7,7 @@ class Acid_Base_Input_Error(Exception):
     def __init__(self):
         pass
 
-def type_of_eqaution_to_use():
+def type_of_equation_to_use():
     equation_type = input(
     "please type either 'strong acid' or 'strong base' for titrations with a strong acid and strong base. " 
     "For weak acid/base titrations enter 'monoprotic', 'diprotic', or 'triprotic'."
@@ -29,7 +29,7 @@ def type_of_eqaution_to_use():
             calculate_equivalence_point()
     
 def main():
-    type_of_eqaution_to_use()
+    type_of_equation_to_use()
 
 
 if __name__ == "__main__":
