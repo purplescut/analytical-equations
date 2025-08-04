@@ -1,4 +1,5 @@
 import math
+from quaqdratics import solve_quadratic
 
 
 """
@@ -91,11 +92,12 @@ def calculate_initial_pH(analyte_concentration = None, analyte_Ka_value = None,)
         analyte_concentration=float(input(f"Enter the concentration of your analyte: "))
     if analyte_Ka_value==None:
         analyte_Ka_value=float(input(f"Enter the Ka value for your anayte here: "))
-    return f"The initial pH is {-math.log10(math.sqrt(analyte_concentration*analyte_Ka_value))}. This is calculated by \
+    pH = -math.log10(math.sqrt(analyte_concentration*analyte_Ka_value))
+    return f"The initial pH is {pH}. This is calculated by \
                  solving for x in Ka = x^2/({analyte_concentration}-x) \
                      where x is negligible. This can be rearranged\
         as x = sqrt({analyte_concentration}*{analyte_Ka_value}). Then pH is the -log(x), which in this case, \
-            is {-math.log10(math.sqrt(analyte_concentration*analyte_Ka_value))}. "
+            is {pH}. "
 #Below is a function to calculate the equivalence point. Making it modular to allow it to be called elsewhere also. 
 def calculate_equivalence_point(analyte_concentration = None, analyte_volume = None, analyte_Ka_value = None, titrant_concentration = None, titrant_volume = None,):
     if analyte_concentration==None:                                               
@@ -108,8 +110,9 @@ def calculate_equivalence_point(analyte_concentration = None, analyte_volume = N
         titrant_concentration=float(input(f"Enter the concentration of your titrant in M: "))
     if titrant_volume==None:
         titrant_volume=float(input(f"Enter the volume of your titrant in L: "))
+    pH = 14-(-math.log10(math.sqrt((analyte_concentration*analyte_volume)/(analyte_volume+titrant_volume)*1e-14/analyte_Ka_value)))
     return print(
-                    f"The pH is {14-(-math.log10(math.sqrt((analyte_concentration*analyte_volume)/(analyte_volume+titrant_volume)*1e-14/analyte_Ka_value)))}. This is the \
+                    f"The pH is {pH}. This is the \
                      equivalence point. At the equivalence point there is no weak analyte left, and no strong titrant left after the reaction completes.\
                       This mean the conjugate is all that is left. To get the pH then you must calculate the dissociation of the weak conjugate. Since the\
                         starting analyte was an acid, the conjugate is a weak base. To do this, you have to calculate the Kb of the conjugate using the equation \
@@ -137,16 +140,20 @@ def weak_acid_pH_calculator(): #This function should be able to handle doing tit
         return print(f"The pH is {pKa}. This is the half equivalence point. The half equivalence point for this reaction is at {(1/2)*titrant_volume}. \
                      At the half equivalence point pH is always equal to pKa.")
     if (analyte_concentration*analyte_volume) < (titrant_concentration*titrant_volume):
-        return print(f"The pH is {14-(-math.log10(((titrant_concentration*titrant_volume)-(analyte_concentration*analyte_volume))/(titrant_volume+analyte_volume)))}. This is\
+        pH = 14-(-math.log10(((titrant_concentration*titrant_volume)-(analyte_concentration*analyte_volume))/(titrant_volume+analyte_volume)))
+        return print(f"The pH is {pH}. This is\
                      after the equivalence point so the pH is mainly dictated by the concentration of the left-over strong titrant. \
                      This can be calculated by determining the moles of titrant, subtracting the moles of analyte, and dividing the remaining moles of \
                      titrant by the volume of the solution, which is the volume of analyte plus the volume of titrant. Then the -log of that concentration is pH")
     if(analyte_concentration * analyte_volume) > (titrant_concentration * titrant_volume):
-        return print(f"The pH is {pKa + math.log10((titrant_concentration*titrant_volume)/((analyte_concentration*analyte_volume)-(titrant_volume*titrant_concentration)))}. \
+        pH = pKa + math.log10((titrant_concentration*titrant_volume)/((analyte_concentration*analyte_volume)-(titrant_volume*titrant_concentration)))
+        return print(f"The pH is {pH}. \
                      This is calculated by determining the moles of acid present, {analyte_concentration} * {analyte_volume}, subtracting from that the moles of base added, \
                         {titrant_concentration} * {titrant_volume}, which gives {(analyte_concentration*analyte_volume)-(titrant_volume*titrant_concentration)}. Then the \
                              Henderson-Hasselbalch equation can be used where [A-] is the moles of base added and [HA] is the moles of acid left. ")
     
+
+
 
     
 
