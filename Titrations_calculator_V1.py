@@ -1,17 +1,9 @@
 import math
 from quaqdratics import solve_quadratic
 
-
-"""
-for debugging purposes. to make it easy to get a print statement showing each 
-line is working properly without having to use "yay" each time.
-"""
-yay = "yay"
-
 class Titration_Input_Error(Exception):
     #Another custom input error class
     pass
-
 
 def solve_for_M1(M1, V1, M2, V2): #A function to contain the algebra to solve for a variable, in this case M1, from M1V1=M2V2
     M1 = M2*V2/V1
@@ -86,7 +78,6 @@ def get_weak_analyte_strong_titrant_equivalence_point():
             except ValueError:
                 return print("Invalid input. Please enter a number or 'none'. ")
 
-
 def calculate_initial_pH(analyte_concentration = None, analyte_Ka_value = None,): #A function to hold the math for calculating initial pH, and 
     if analyte_concentration==None:                                               #allowing it to be called for user inputs.
         analyte_concentration=float(input(f"Enter the concentration of your analyte: "))
@@ -119,7 +110,7 @@ def calculate_equivalence_point(analyte_concentration = None, analyte_volume = N
                          Kb = 1e-14/Ka. The dissociation of a weak base gives a pOH result that must be converted to a pH by the equation 14-pOH = pH. "
                     )
 
-def weak_acid_pH_calculator(): #This function should be able to handle doing titrations of a weak acid (and potentially later on with a weak base also)
+def weak_acid_pH_calculator(): #This function should be able to handle doing titrations of a weak monoprotic acid (and potentially later on with a weak base also)
     try:
         analyte_volume = float(input("Enter the volume of the analyte in L: "))
         analyte_concentration = float(input("Enter the concentration of the analyte in M: "))
@@ -151,7 +142,7 @@ def weak_acid_pH_calculator(): #This function should be able to handle doing tit
                      This is calculated by determining the moles of acid present, {analyte_concentration} * {analyte_volume}, subtracting from that the moles of base added, \
                         {titrant_concentration} * {titrant_volume}, which gives {(analyte_concentration*analyte_volume)-(titrant_volume*titrant_concentration)}. Then the \
                              Henderson-Hasselbalch equation can be used where [A-] is the moles of base added and [HA] is the moles of acid left. ")
-    
+
 
 
 

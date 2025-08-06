@@ -1,25 +1,29 @@
 import math
 
 def solve_quadratic(a = None, b = None, c = None):
-    quadratics_outcomes_list = []
     try:
         if a == None: 
-            a = input("From the standard quadratic equation ax^2 +bx +c = 0, please enter the value of 'a': ")
+            a = float(input("From the standard quadratic equation ax^2 +bx +c = 0, please enter the value of 'a': "))
         if b == None:
-            b = input("From the standard quadratic equation ax^2 +bx +c = 0, please enter the value of 'b': ")
+            b = float(input("From the standard quadratic equation ax^2 +bx +c = 0, please enter the value of 'b': "))
         if c == None:
-            c = input("From the standard quadratic equation ax^2 +bx +c = 0, please enter the value of 'c': ")
+            c = float(input("From the standard quadratic equation ax^2 +bx +c = 0, please enter the value of 'c': "))
+        if a == 0:
+            raise ZeroDivisionError("Coefficiant 'a' cannot be 0 for a quadratic equation. If there is no number before X^2 enter '1'. ")
     except ValueError:
-        print("ERROR: please enter a number, '0' is not a valid input. ")
+        return print("ERROR: please enter a number, '0' is not a valid input. ")
     try:
-        x1 = (-b + math.sqrt(b^2-4*a*c))/(2*a)
-        x2 = (-b - math.sqrt(b^2-4*a*c))/(2*a)
+        sqrt = b**2 - 4*a*c
+        if sqrt < 0: 
+            raise ValueError("The equation has no real roots. ")
+        x1 = (-b + math.sqrt(sqrt)) / (2*a)
+        x2 = (-b - math.sqrt(sqrt)) / (2*a)
+        return [x1, x2]
     except ZeroDivisionError:
-        print("ERROR: cannot divide by 0. Please enter non-zero values only.")
+        return print("ERROR: cannot divide by 0. Please enter non-zero values only.")
     except ValueError:
-        print("ERROR: please enter a number, '0' is not a valid input. ")
-    quadratics_outcomes_list = [x1, x2]
-    return print(quadratics_outcomes_list)
+        return print("ERROR: please enter a number, '0' is not a valid input. ")
+    
 
 
 
