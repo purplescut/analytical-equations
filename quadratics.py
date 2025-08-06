@@ -1,5 +1,9 @@
 import math
 
+class QuadraticsError(Exception):
+    pass
+    # A custom error class for quadratics
+
 def solve_quadratic(a = None, b = None, c = None):
     try:
         if a == None: 
@@ -11,11 +15,11 @@ def solve_quadratic(a = None, b = None, c = None):
         if a == 0:
             raise ZeroDivisionError("Coefficiant 'a' cannot be 0 for a quadratic equation. If there is no number before X^2 enter '1'. ")
     except ValueError:
-        return print("ERROR: please enter a number, '0' is not a valid input. ")
+        return print("ERROR: please enter a number. ")
     try:
         sqrt = b**2 - 4*a*c
         if sqrt < 0: 
-            raise ValueError("The equation has no real roots. ")
+            raise QuadraticsError("The equation has no real roots. ")
         x1 = (-b + math.sqrt(sqrt)) / (2*a)
         x2 = (-b - math.sqrt(sqrt)) / (2*a)
         return [x1, x2]
