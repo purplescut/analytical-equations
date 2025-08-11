@@ -114,21 +114,30 @@ def calculate_equivalence_point(analyte_concentration = None, analyte_volume = N
     print(f"Kb = 1e-14/Ka. The dissociation of a weak base gives a pOH result that must be converted to a pH by the equation 14-pOH = pH. ")
     return
 
-def weak_acid_pH_calculator(analyte_volume = None, analyte_concentration = None, titrant_volume = None, titrant_concentration = None, pKa = None,): #This function should be able to handle doing titrations of a weak monoprotic acid (and potentially later on with a weak base also)
-    analyte_Ka_value = convert_pKa_to_Ka(pKa)
+#The function below should be able to handle doing titrations of a weak monoprotic acid (and potentially later on with a weak base also)
+def weak_acid_pH_calculator(analyte_volume = None, analyte_concentration = None, titrant_volume = None, titrant_concentration = None, pKa = None,): 
+    analyte_Ka_value = None
     try:
         if analyte_volume == None:
             analyte_volume = float(input("Enter the volume of the analyte in L: "))
         if analyte_concentration == None:
             analyte_concentration = float(input("Enter the concentration of the analyte in M: "))
         if titrant_volume == None:
-            titrant_volume = float(input("Enter the volume of titrant being added in L"
+            titrant_volume = float(input("Enter the volume of titrant being added in L. "
                                     "If you want the initial dissociation, with no titrant added, enter '0': "))
         if titrant_concentration == None:
             titrant_concentration = float(input("Enter the concentration of titrant in M: "))
         if pKa == None:
-            analyte_Ka_value = float(input("Enter the Ka for your analyte here. Scientific notation is acceptable in the format of X.Ye-x: "))
-            pKa = -math.log10(analyte_Ka_value)
+            analyte_Ka_value = (input("Enter the Ka for your analyte here. Scientific notation is acceptable in the format of X.Ye-x "
+                                           "If you have a pKa, and not a Ka value, type 'pKa': "))
+            if analyte_Ka_value.lower() == "pka":
+                pKa = float(input("Enter your pKa value here: "))
+                analyte_Ka_value = convert_pKa_to_Ka(pKa)
+            else:
+                analyte_Ka_value = float(analyte_Ka_value)
+                pKa = -math.log10(analyte_Ka_value)
+        if analyte_Ka_value is None and pKa is not None:
+            analyte_Ka_value = 10 ** (-pKa)
         if analyte_concentration <= 0 or titrant_concentration <= 0:
             print("Input Error: Concentrations must be positive numbers.")
             return
@@ -206,7 +215,12 @@ def polyprotic_titrations_calculator(weak_analyte_conc = None, weak_analyte_vol 
             print(polyprotic_dissociations(HXA_conc = weak_analyte_conc, pka_list = pka_list))
             return
         elif len(pka_list) >= 1:
-            if moles_titrant < moles_analyte and moles_titrant > 0:
+            if abs((moles_titrant) - 0.5 * (moles_analyte)) < 1e-6:
+                print("\n --- Half equivalence point 1 ---")
+                print(f"The pH is {pka_list[0]}.")
+                print(f"At the half equivalence point pH is equal to pKa, in this case, pKa1. ")
+                return
+            elif moles_titrant < moles_analyte and moles_titrant > 0:
                 print("\n --- Before first equivalence point --- ")
                 return weak_acid_pH_calculator(
                     analyte_volume = weak_analyte_vol, 
@@ -215,11 +229,6 @@ def polyprotic_titrations_calculator(weak_analyte_conc = None, weak_analyte_vol 
                     titrant_concentration = strong_titrant_conc, 
                     pKa = pka_list[0],
                 )
-            elif abs((moles_titrant) - 0.5 * (moles_analyte)) < 1e-6:
-                print("\n --- Half equivalence point 1 ---")
-                print(f"The pH is {pka_list[0]}.")
-                print(f"At the half equivalence point pH is equal to pKa, in this case, pKa1. ")
-                return
         if len(pka_list) > 1:
             if moles_analyte == moles_titrant:
                 pH = 0.5*(pka_list[0]+pka_list[1])
@@ -233,6 +242,8 @@ def polyprotic_titrations_calculator(weak_analyte_conc = None, weak_analyte_vol 
             elif moles_titrant > moles_analyte and moles_titrant < 2*moles_analyte:
                 new_moles_titrant = moles_titrant - moles_analyte
                 new_moles_analyte = moles_analyte - (moles_titrant - moles_analyte)
+                if new_moles_analyte <0:
+                    raise Exception("After second equivalence point math not added yet. Please wait for an update to do this calculation. ")
                 pH = polyprotic_Henderson_Hasselbalch_equation(new_moles_analyte, new_moles_titrant, pka_list[1])
                 print("\n --- After first equivalence point, before second equivalence point ---")
                 print(f"The pH is {pH:.2f}.")

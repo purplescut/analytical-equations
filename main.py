@@ -19,4 +19,7 @@ def main():
         except Exception as e:
             print(f" ERROR: cannot {e}")
 
-main()
+if __name__ == "__main__":
+    main()
+
+    
