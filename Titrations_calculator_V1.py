@@ -83,17 +83,18 @@ def get_weak_analyte_strong_titrant_equivalence_point():
                 print("Invalid input. Please enter a number or 'none'. ")
                 return
 
-def calculate_initial_pH(analyte_concentration = None, analyte_Ka_value = None,): #A function to hold the math for calculating initial pH, and 
+def calculate_initial_pH(analyte_concentration = None, analyte_Ka_value = None,): #A function to hold the math for calculating initial pH, and
     if analyte_concentration==None:                                               #allowing it to be called for user inputs.
         analyte_concentration=float(input(f"Enter the concentration of your analyte: "))
     if analyte_Ka_value==None:
-        analyte_Ka_value=float(input(f"Enter the Ka value for your anayte here: "))
-    pH = -math.log10(math.sqrt(analyte_concentration*analyte_Ka_value))
-    return f"The initial pH is {pH}. This is calculated by \
-                 solving for x in Ka = x^2/({analyte_concentration}-x) \
-                     where x is negligible. This can be rearranged\
-        as x = sqrt({analyte_concentration}*{analyte_Ka_value}). Then pH is the -log(x), which in this case, \
-            is {pH}. "
+        analyte_Ka_value=float(input(f"Enter the Ka value for your analyte here: "))
+    # Exact solution: Ka = x^2 / (C - x)  =>  x^2 + Ka*x - Ka*C = 0
+    roots = solve_quadratic(a=1, b=analyte_Ka_value, c=-analyte_concentration * analyte_Ka_value)
+    H_conc = max(r for r in roots if r > 0)
+    pH = -math.log10(H_conc)
+    return (f"The initial pH is {pH:.4f}. This is the exact solution to Ka = x\u00b2/(C - x), "
+            f"rearranged as x\u00b2 + Ka\u00b7x - Ka\u00b7C = 0, where C = {analyte_concentration} M "
+            f"and Ka = {analyte_Ka_value}. [H\u207a] = {H_conc:.4e} M, pH = {pH:.4f}.")
 #Below is a function to calculate the equivalence point. Making it modular to allow it to be called elsewhere also. 
 def calculate_equivalence_point(analyte_concentration = None, analyte_volume = None, analyte_Ka_value = None, titrant_concentration = None, titrant_volume = None,):
     if analyte_concentration==None:                                               
@@ -147,17 +148,22 @@ def weak_acid_pH_calculator(analyte_volume = None, analyte_concentration = None,
     if titrant_volume == 0:
         print(calculate_initial_pH(analyte_concentration, analyte_Ka_value))
     elif (analyte_concentration*analyte_volume) == (titrant_concentration*titrant_volume):
-        print(calculate_equivalence_point(analyte_concentration, analyte_volume, analyte_Ka_value, titrant_concentration, titrant_volume,))
+        calculate_equivalence_point(analyte_concentration, analyte_volume, analyte_Ka_value, titrant_concentration, titrant_volume,)
     elif abs((titrant_concentration * titrant_volume) - 0.5 * (analyte_concentration * analyte_volume)) < 1e-6:
         print(f"The pH is {pKa}. This is the half equivalence point. The half equivalence point for this reaction is at {(1/2)*titrant_volume}.")
         print(f"At the half equivalence point pH is always equal to pKa.")
         return
     elif (analyte_concentration*analyte_volume) < (titrant_concentration*titrant_volume):
-        pH = Henderson_Hasselbalch_equation(analyte_concentration, analyte_volume, titrant_concentration, titrant_volume, pKa,)
-        print(f"The pH is {pH}.")
-        print(f"This is after the equivalence point so the pH is mainly dictated by the concentration of the left-over strong titrant.")
-        print(f"This can be calculated by determining the moles of titrant, subtracting the moles of analyte, and dividing the remaining moles of")
-        print(f"titrant by the volume of the solution, which is the volume of analyte plus the volume of titrant. Then the -log of that concentration is pH")
+        # After equivalence point: excess strong base dominates. [OH-] = excess moles / total volume.
+        moles_excess = titrant_concentration*titrant_volume - analyte_concentration*analyte_volume
+        total_volume = analyte_volume + titrant_volume
+        OH_conc = moles_excess / total_volume
+        pOH = -math.log10(OH_conc)
+        pH = 14 - pOH
+        print(f"The pH is {pH:.4f}.")
+        print(f"This is after the equivalence point. All weak acid has been consumed, and the pH is governed by the excess strong base.")
+        print(f"Excess moles of base = ({titrant_concentration} * {titrant_volume}) - ({analyte_concentration} * {analyte_volume}) = {moles_excess:.4e} mol")
+        print(f"[OH\u207b] = {moles_excess:.4e} / {total_volume} L = {OH_conc:.4e} M,  pOH = {pOH:.4f},  pH = 14 - {pOH:.4f} = {pH:.4f}")
         return
     elif(analyte_concentration * analyte_volume) > (titrant_concentration * titrant_volume):
         pH = Henderson_Hasselbalch_equation(analyte_concentration, analyte_volume, titrant_concentration, titrant_volume, pKa,)
