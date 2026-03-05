@@ -23,19 +23,34 @@ def calculate_Ka(A, H, HA):
     Ka = H*A/HA #A function to perform simple algebra for repeated use
     return f"The value of Ka for this dissociation is {Ka}. Which is calculated by Ka = {H}*{A}/{HA}"
 
+
+def calculate_normal_monoprotic_dissociation(HA, Ka):
+    x = solve_quadratic(a=1, b=Ka, c=-HA*Ka)
+    if x[0] > 0:
+        pH = -math.log10(x[0])
+        return f"The pH is {pH}. The values of [H+] and [A-] are {x[0]}. "
+    elif x[1] > 0:
+        pH = -math.log10(x[1])
+        return f"The pH is {pH}. The value of [H+] is {x[1]} and [A-] is {x[1]}. "
+
+    
+
+
 def determine_monoprotic_acid_dissociation_equation(H, HA, A, Ka): # a function for deciding which algebra function to use for monoprotic dissociations
-    if [H, HA, A, Ka].count(None) != 1:
-        raise Dissociations_Input_Error("ERROR: Please enter 'None' for exactly one variable.")
-    if H == None: return calculate_H(A, HA, Ka)
-    if A == None:return calculate_A(H, HA, Ka)
-    if HA == None:return calculate_HA(A, H, Ka)
-    if Ka == None:return calculate_Ka(A, H, HA)
+    if [H, HA, A, Ka].count(None) > 2 or [H, HA, A, Ka].count(None) == 0:
+        raise Dissociations_Input_Error("ERROR: Please enter 'None' for [H] and [A] or for exactly one other variable. ")
+    elif H == None and A == None:
+        print(calculate_normal_monoprotic_dissociation(HA, Ka))
+    elif H == None:return calculate_H(A, HA, Ka)
+    elif A == None:return calculate_A(H, HA, Ka)
+    elif HA == None:return calculate_HA(A, H, Ka) 
+    elif Ka == None:return calculate_Ka(A, H, HA)
     
 def is_unknown(variable): #A function to use for detemermining which variable is the unknown and converting the user inputted string into a None type python value
     return None if variable.strip().lower() == "none" else float(variable)
 
 def monoprotic_acid_dissociation_calculator(): #The meat of the calculator for a monoprotic acid dissociation equation. 
-    unknown = "If this is your unknown enter 'None'.: "      #This will take the user inputs and push them to the appropriate functions as needed
+    unknown = "If this is your unknown enter 'None'.: "      
     dissociated = "Enter the concentration of the dissociated "
     print("For your unknown, or the variable you wish to calculate, enter 'None' when asked to enter its value")
     H = input(f"{dissociated}H, or, '[H+]' here. {unknown}")
@@ -43,7 +58,7 @@ def monoprotic_acid_dissociation_calculator(): #The meat of the calculator for a
     HA = input(f"Enter the initial concentration of the undissociated acid (HA): {unknown}")
     Ka = input(f"Enter the value for the dissociation constant, or, Ka, for the weak acid here. {unknown}")
     try:
-        print(determine_monoprotic_acid_dissociation_equation(*list(map(is_unknown, [H, A, HA, Ka]))))
+        print(determine_monoprotic_acid_dissociation_equation(*list(map(is_unknown, [H, HA, A, Ka]))))
     except ValueError:
         raise Dissociations_Input_Error(
             "ERROR: Invalid input! Please only enter numeric values for any known values. Enter 'None' for any values that are unknown. " 
@@ -94,7 +109,7 @@ def convert_pKa_to_Ka(pKa):
 
 
 def main():
-    polyprotic_dissociations()
+    print(calculate_normal_monoprotic_dissociation(HA = 0.5, Ka = 2e-8))
 
 
 
