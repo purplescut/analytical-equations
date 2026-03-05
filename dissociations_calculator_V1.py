@@ -40,7 +40,7 @@ def determine_monoprotic_acid_dissociation_equation(H, HA, A, Ka): # a function 
     if [H, HA, A, Ka].count(None) > 2 or [H, HA, A, Ka].count(None) == 0:
         raise Dissociations_Input_Error("ERROR: Please enter 'None' for [H] and [A] or for exactly one other variable. ")
     elif H == None and A == None:
-        print(calculate_normal_monoprotic_dissociation(HA, Ka))
+        return calculate_normal_monoprotic_dissociation(HA, Ka)
     elif H == None:return calculate_H(A, HA, Ka)
     elif A == None:return calculate_A(H, HA, Ka)
     elif HA == None:return calculate_HA(A, H, Ka) 
@@ -94,7 +94,7 @@ def polyprotic_dissociations(HXA_conc = None, pka_list = None,):
         roots = solve_quadratic(1, convert_pKa_to_Ka(pka_list[0]), -convert_pKa_to_Ka(pka_list[0])*HXA_conc)
         if not roots:
             return print("ERROR: No roots returned from solver.")
-        positive_roots = max(r for r in roots if r>0)
+        positive_roots = [r for r in roots if r > 0]
         if not positive_roots:
             return print("ERROR: No positive roots found.")
         x = max(positive_roots)
