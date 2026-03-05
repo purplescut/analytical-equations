@@ -1,5 +1,5 @@
 import math
-from Titrations_calculator_V1 import strong_acid_titration_calculator, weak_acid_pH_calculator, calculate_equivalence_point
+from Titrations_calculator_V1 import strong_acid_titration_calculator, weak_acid_pH_calculator, calculate_equivalence_point, polyprotic_titrations_calculator
 from Dissociations_calculator_V1 import monoprotic_acid_dissociation_calculator
 
 class Acid_Base_Input_Error(Exception):
@@ -27,6 +27,8 @@ def type_of_equation_to_use():
             weak_acid_pH_calculator()
         if which_equation.lower() in ("equivalence"):
             calculate_equivalence_point()
+    if equation_type in ("diprotic", "triprotic"):
+        polyprotic_titrations_calculator()
     
 def main():
     type_of_equation_to_use()
